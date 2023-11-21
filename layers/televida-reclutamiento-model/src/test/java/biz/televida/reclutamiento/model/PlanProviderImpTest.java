@@ -106,7 +106,7 @@ public class PlanProviderImpTest {
 
             if (plan.getStatus() != null) {
                 Integer baja = 0;
-                plan.setStatus(PAID_DAYS);
+                plan.setStatus(baja);
 
                 planProvider.update(plan);
 
