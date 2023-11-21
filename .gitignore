@@ -1,0 +1,6 @@
+environment/data/
+/layers/televida-reclutamiento-model/target/
+/layers/televida-reclutamiento-business/target/
+/layers/televida-reclutamiento-ws-api/target/
+layers/televida-reclutamiento-business/logs/
+layers/televida-reclutamiento-model/logs/
