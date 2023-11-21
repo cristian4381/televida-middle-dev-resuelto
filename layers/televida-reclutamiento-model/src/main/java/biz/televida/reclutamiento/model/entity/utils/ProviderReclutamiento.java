@@ -9,9 +9,11 @@ import biz.televida.provider.core.FilterBuilder;
 import biz.televida.provider.core.Page;
 import biz.televida.provider.imp.DataProviderFactory;
 import biz.televida.reclutamiento.model.PlanProvider;
+import biz.televida.reclutamiento.model.SubscriptionPaymentsProvider;
 import biz.televida.reclutamiento.model.SubscriptionProvider;
 import biz.televida.reclutamiento.model.entity.Plan;
 import biz.televida.reclutamiento.model.entity.Subscription;
+import biz.televida.reclutamiento.model.entity.SubscriptionPayments;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -79,5 +81,9 @@ public class ProviderReclutamiento {
 
     public static SubscriptionProvider getSubscriptionProvider() {
         return (SubscriptionProvider) getProvider(Subscription.class);
+    }
+
+    public static SubscriptionPaymentsProvider getSubscriptionPaymentsProvider() {
+        return (SubscriptionPaymentsProvider) getProvider(SubscriptionPayments.class);
     }
 }
