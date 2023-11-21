@@ -6,7 +6,9 @@ package biz.televida.reclutamiento.model.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -65,9 +68,22 @@ public class Subscription extends AbstractEntity implements Serializable {
     @Column(name = "amount", nullable = false, precision = 10, scale = 2)
     private Double amount;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subscription", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubscriptionPayments> payments;
+
     @Override
     public String toString() {
-        return "Subscription{" + "subscriptionId=" + subscriptionId + ", plan=" + plan + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phone=" + phone + ", nextPaymentDate=" + nextPaymentDate + ", amount=" + amount + '}';
+        return "Subscription{"
+                + "subscriptionId=" + subscriptionId
+                + ", plan=" + plan
+                + ", firstName=" + firstName
+                + ", lastName=" + lastName
+                + ", email=" + email
+                + ", phone=" + phone
+                + ", nextPaymentDate=" + nextPaymentDate
+                + ", amount=" + amount
+                + ", payments=" + payments.size()
+                + '}';
     }
 
     @Override
