@@ -108,4 +108,47 @@ public class SubscriptionProviderImpTest {
         }
     }
 
+    @Test
+    public void testUpdate() {
+        try {
+            System.out.println("testUpdate => cambio");
+            Subscription subscription = getSubscriptionByEmail(EMAIL);
+            if (subscription != null) {
+                String newPhone = "502 4512 7854";
+                subscription.setPhone(newPhone);
+
+                subscriptionProvider.update(subscription);
+
+                assertEquals(newPhone, subscription.getPhone());
+                System.out.println("Numero de telefono actualizado");
+            } else {
+                System.out.println("No existe la suscripcion del email[" + EMAIL + "]");
+                assertNotNull(subscription);
+            }
+        } catch (Exception e) {
+            System.out.println("Excepcion controlada ==> " + e.getMessage());
+        }
+    }
+
+    @Test
+    public void testDelete() {
+        try {
+            System.out.println("testDelete => baja");
+            Subscription subscription = getSubscriptionByEmail(EMAIL);
+            if (subscription != null) {
+                Integer baja = 0;
+                subscription.setStatus(baja);
+
+                subscriptionProvider.update(subscription);
+
+                //assertEquals(baja, subscription.getStatus());
+                System.out.println("La suscripcion se ha dado de baja");
+            } else {
+                System.out.println("No existe la suscripcion del email[" + EMAIL + "]");
+                assertNotNull(subscription);
+            }
+        } catch (Exception e) {
+            System.out.println("Excepcion controlada ==> " + e.getMessage());
+        }
+    }
 }
