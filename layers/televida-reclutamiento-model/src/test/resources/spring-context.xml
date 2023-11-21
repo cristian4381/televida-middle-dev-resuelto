@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:reclutamientoDataSource.properties</value>
+            </list>
+        </property>	
+    </bean>
+    <bean id="reclutamientoDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="driverClassName" value="${reclutamientoDataSource.driverClassName}" />
+        <property name="url" value="${reclutamientoDataSource.url}" />
+        <property name="username" value="${reclutamientoDataSource.username}" />
+        <property name="password" value="${reclutamientoDataSource.password}" />
+        <property name="initialSize" value="${reclutamientoDataSource.initialSize}" />
+        <property name="maxActive" value="${reclutamientoDataSource.maxActive}" />
+        <property name="maxIdle" value="${reclutamientoDataSource.maxIdle}" />
+        <property name="minIdle" value="${reclutamientoDataSource.minIdle}" />
+        <property name="maxWait" value="10000" />
+        <property name="removeAbandonedTimeout" value="60" />
+        <property name="removeAbandoned" value="true" />
+        <property name="logAbandoned" value="true" />
+        <property name="minEvictableIdleTimeMillis" value="30000" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="select 1" />
+        <property name="validationInterval" value="30000" />
+        <property name="timeBetweenEvictionRunsMillis" value="5000" />
+    </bean>
+    <bean id="reclutamientoUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="reclutamientoDataSource"/>
+    </bean>
+	
+    <bean id="reclutamientoManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="reclutamientoUnitManager"/>
+        <property name="persistenceUnitName" value="reclutamiento"/>
+    </bean>
+    
+    <bean id="planProvider" class="biz.televida.reclutamiento.model.PlanProviderImp">
+        <constructor-arg ref="reclutamientoManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="0" />
+    </bean>
+    
+    <bean id="subscriptionProvider" class="biz.televida.reclutamiento.model.SubscriptionProviderImp">
+        <constructor-arg ref="reclutamientoManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="0" />
+    </bean>
+    
+    
+    
+    <bean id="reclutamientoProviders" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="planProvider" value-ref="planProvider"/>
+                <entry key="subscriptionProvider" value-ref="subscriptionProvider"/>
+            </map>
+        </constructor-arg>
+    </bean>
+   
+	
+</beans>

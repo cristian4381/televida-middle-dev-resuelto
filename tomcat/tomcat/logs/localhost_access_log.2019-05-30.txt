@@ -1,0 +1,5 @@
+172.17.0.1 - - [30/May/2019:00:00:26 +0000] "GET /televida-gamification-ws-api-0.0.3-RELEASE/v1/users?game-id=1 HTTP/1.1" 500 4596
+172.17.0.1 - - [30/May/2019:00:00:34 +0000] "GET /televida-gamification-ws-api-0.0.3-RELEASE/v1/users?game-id=1?uuid=63 HTTP/1.1" 404 1078
+172.17.0.1 - - [30/May/2019:00:01:00 +0000] "GET /televida-gamification-ws-api-0.0.3-RELEASE/v1/users?game-id=1?msisdn=50576571485 HTTP/1.1" 404 1078
+172.17.0.1 - - [30/May/2019:00:01:10 +0000] "GET /televida-gamification-ws-api-0.0.3-RELEASE/v1/users?game-id=1&msisdn=50576571485 HTTP/1.1" 500 5072
+172.17.0.1 - - [30/May/2019:00:01:23 +0000] "GET /televida-gamification-ws-api-0.0.3-RELEASE/v1/users?game-id=1&uuid=63 HTTP/1.1" 500 5070

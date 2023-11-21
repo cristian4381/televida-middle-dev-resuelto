@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:gamificationDataSource.properties</value>
+                <value>classpath:codsusDataSource.properties</value>
+                <value>classpath:securityDataSource.properties</value>
+            </list>
+        </property>	
+    </bean>
+    <bean id="codsusDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="driverClassName" value="${codsusDataSource.driverClassName}" />
+        <property name="url" value="${codsusDataSource.url}" />
+        <property name="username" value="${codsusDataSource.username}" />
+        <property name="password" value="${codsusDataSource.password}" />
+        <property name="initialSize" value="${codsusDataSource.initialSize}" />
+        <property name="maxActive" value="${codsusDataSource.maxActive}" />
+        <property name="maxIdle" value="${codsusDataSource.maxIdle}" />
+        <property name="minIdle" value="${codsusDataSource.minIdle}" />
+        <property name="maxWait" value="10000" />
+        <property name="removeAbandonedTimeout" value="60" />
+        <property name="removeAbandoned" value="true" />
+        <property name="logAbandoned" value="true" />
+        <property name="minEvictableIdleTimeMillis" value="30000" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="select 1" />
+        <property name="validationInterval" value="30000" />
+        <property name="timeBetweenEvictionRunsMillis" value="5000" />
+    </bean>
+    <bean id="gamificationDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+        <property name="driverClassName" value="${gamificationDataSource.driverClassName}" />
+        <property name="url" value="${gamificationDataSource.url}" />
+        <property name="username" value="${gamificationDataSource.username}" />
+        <property name="password" value="${gamificationDataSource.password}" />
+        <property name="initialSize" value="${gamificationDataSource.initialSize}" />
+        <property name="maxActive" value="${gamificationDataSource.maxActive}" />
+        <property name="maxIdle" value="${gamificationDataSource.maxIdle}" />
+        <property name="minIdle" value="${gamificationDataSource.minIdle}" />
+        <property name="maxWait" value="10000" />
+        <property name="removeAbandonedTimeout" value="60" />
+        <property name="removeAbandoned" value="true" />
+        <property name="logAbandoned" value="true" />
+        <property name="minEvictableIdleTimeMillis" value="30000" />
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="true" />
+        <property name="testOnReturn" value="false" />
+        <property name="validationQuery" value="select 1" />
+        <property name="validationInterval" value="30000" />
+        <property name="timeBetweenEvictionRunsMillis" value="5000" />
+    </bean>
+	<bean id="securityDataSource" class="org.apache.tomcat.jdbc.pool.DataSource" destroy-method="close">
+	    <property name="driverClassName" value="${securityDataSource.driverClassName}" />
+	    <property name="url" value="${securityDataSource.url}" />
+	    <property name="username" value="${securityDataSource.username}" />
+	    <property name="password" value="${securityDataSource.password}" />
+	    <property name="initialSize" value="${securityDataSource.initialSize}" />
+	    <property name="maxActive" value="${securityDataSource.maxActive}" />
+	    <property name="maxIdle" value="${securityDataSource.maxIdle}" />
+	    <property name="minIdle" value="${securityDataSource.minIdle}" />
+		<property name="maxWait" value="10000" />
+	    <property name="removeAbandonedTimeout" value="60" />
+	    <property name="removeAbandoned" value="true" />
+	    <property name="logAbandoned" value="true" />
+	    <property name="minEvictableIdleTimeMillis" value="30000" />
+	    <property name="testWhileIdle" value="true" />
+	    <property name="testOnBorrow" value="true" />
+	    <property name="testOnReturn" value="false" />
+	    <property name="validationQuery" value="select 1" />
+	    <property name="validationInterval" value="30000" />
+	    <property name="timeBetweenEvictionRunsMillis" value="5000" />
+	</bean>
+
+    <bean id="gamificationUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/gamification-persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="gamificationDataSource" />
+    </bean>
+    <bean id="commonUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/common-persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="codsusDataSource"/>
+    </bean>
+    <bean id="codsusUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/codsus-persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="codsusDataSource"/>
+    </bean>
+    <bean id="virtualMoneyUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+        <property name="persistenceXmlLocations">
+            <list>
+                <value>classpath*:META-INF/virtualmoney-persistence.xml</value>
+            </list>
+        </property>
+        <property name="defaultDataSource" ref="codsusDataSource"/>
+    </bean>
+	<bean id="securityUnitManager" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+	    <property name="persistenceXmlLocations">
+	        <list>
+	            <value>classpath*:META-INF/security-persistence.xml</value>
+	        </list>
+	    </property>
+   	 	<property name="defaultDataSource" ref="securityDataSource"/>
+	</bean>
+	
+	<bean id="securityManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+	    <property name="persistenceUnitManager" ref="securityUnitManager"/>
+	    <property name="persistenceUnitName" value="security"/>
+	</bean>
+    <bean id="virtualmoneyManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="virtualMoneyUnitManager"/>
+        <property name="persistenceUnitName" value="virtualmoney"/>
+    </bean>
+    <bean id="gamificationManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="gamificationUnitManager" />
+        <property name="persistenceUnitName" value="gamification" />
+    </bean>
+    <bean id="commonManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="commonUnitManager"/>
+        <property name="persistenceUnitName" value="common"/>
+    </bean>
+    <bean id="codsusManagerFactoryContainer" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="persistenceUnitManager" ref="codsusUnitManager"/>
+        <property name="persistenceUnitName" value="codsus"/>
+    </bean>
+
+    <bean id="countryProvider" class="biz.televida.codsus.model.CountryProviderImp">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="propertyProvider" class="biz.televida.common.model.PropertyProviderImp">
+        <constructor-arg ref="commonManagerFactoryContainer" />
+    </bean>
+    <bean id="commonProviders" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="propertyProvider" value-ref="propertyProvider"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="subscriptionProvider" class="biz.televida.codsus.model.SubscriptionProviderImp">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+
+    <bean id="subscriberProvider" class="biz.televida.codsus.model.SubscriberProviderImp">
+        <constructor-arg ref="codsusManagerFactoryContainer" />
+    </bean>
+    
+    <bean id="operatorProvider" class="biz.televida.codsus.model.OperatorProviderImp">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+
+    <bean id="codsusProviders" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="subscriberProvider" value-ref="subscriberProvider"/>
+                <entry key="subscriptionProvider" value-ref="subscriptionProvider"/>
+                <entry key="countryProvider" value-ref="countryProvider"/>
+                <entry key="operatorProvider" value-ref="operatorProvider"/>
+                <entry key="shortcodeBySubsProvider" value-ref="shortcodeBySubsProvider"/>
+                <entry key="routeProvider" value-ref="routeProvider"/>
+                <entry key="shortcodeProvider" value-ref="shortcodeProvider"/>
+            </map>
+        </constructor-arg>
+    </bean>
+
+    <bean id="shortcodeProvider" class="biz.televida.codsus.model.GenericShortcodeProvider">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="routeProvider" class="biz.televida.codsus.model.RouteProviderImp">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+
+    <bean id="shortcodeBySubsProvider" class="biz.televida.codsus.model.GenericShortcodeBySubsProvider">
+        <constructor-arg index="0" ref="codsusManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    
+    <bean id="gameProvider" class="biz.televida.gamification.model.GameProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="eventTypeProvider" class="biz.televida.gamification.model.GameEventTypeProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="gameCommandTypeProvider" class="biz.televida.gamification.model.GameCommandTypeProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="gameCommandProvider" class="biz.televida.gamification.model.GameCommandProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="commandDecisionProvider" class="biz.televida.gamification.model.CommandDecisionProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="200" />
+    </bean>
+    <bean id="prizeInventoryProvider" class="biz.televida.gamification.model.PrizeInventoryProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="assignedPrizeProvider" class="biz.televida.gamification.model.AssignedPrizeProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer"/>
+    </bean>
+    <bean id="userGameProvider" class="biz.televida.gamification.model.UserGameProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="subscribedUserGameProvider" class="biz.televida.gamification.model.SubscribedUserGameProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="userMediaProvider" class="biz.televida.gamification.model.UserMediaProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="userGameAttributeProvider" class="biz.televida.gamification.model.UserGameAttributeProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="gameLocationProvider" class="biz.televida.gamification.model.GameLocationProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="gameLocationPrizeProvider" class="biz.televida.gamification.model.GameLocationPrizeProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="prizeTypeProvider" class="biz.televida.gamification.model.PrizeTypeProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="prizeProvider" class="biz.televida.gamification.model.PrizeProviderImp">
+        <constructor-arg index="0" ref="gamificationManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="eventProvider" class="biz.televida.gamification.model.UserGameEventProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="subscriptionGameProvider" class="biz.televida.gamification.model.SubscriptionGameProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="locationTypeProvider" class="biz.televida.gamification.model.LocationTypeProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="userEventDayProvider" class="biz.televida.gamification.model.UserEventDayProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="prizeExistencesProvider" class="biz.televida.gamification.model.PrizeExistencesProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="gameCounterProvider" class="biz.televida.gamification.model.GameCounterProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="monetizedUserGameProvider" class="biz.televida.gamification.model.MonetizedUserGameProviderImp">
+        <constructor-arg ref="gamificationManagerFactoryContainer" />
+    </bean>
+    <bean id="gamificationProviders" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+            	<entry key="monetizedUserGameProvider" value-ref="monetizedUserGameProvider"/>
+            	<entry key="gameCounterProvider" value-ref="gameCounterProvider"/>
+                <entry key="userMediaProvider" value-ref="userMediaProvider"/>
+                <entry key="userGameProvider" value-ref="userGameProvider"/>
+                <entry key="gameProvider" value-ref="gameProvider" />
+                <entry key="eventTypeProvider" value-ref="eventTypeProvider" />
+                <entry key="gameCommandTypeProvider" value-ref="gameCommandTypeProvider" />
+                <entry key="gameCommandProvider" value-ref="gameCommandProvider" />
+                <entry key="commandDecisionProvider" value-ref="commandDecisionProvider" />
+                <entry key="eventProvider" value-ref="eventProvider" />
+                <entry key="prizeProvider" value-ref="prizeProvider" />
+                <entry key="prizeTypeProvider" value-ref="prizeTypeProvider" />
+                <entry key="prizeInventoryProvider" value-ref="prizeInventoryProvider" />
+                <entry key="assignedPrizeProvider" value-ref="assignedPrizeProvider" />
+                <entry key="userEventDayProvider" value-ref="userEventDayProvider" />
+                <entry key="eventTypeProvider" value-ref="eventTypeProvider" />
+                <entry key="userGameAttributeProvider" value-ref="userGameAttributeProvider" />
+                <entry key="gameLocationProvider" value-ref="gameLocationProvider" />
+                <entry key="gameLocationPrizeProvider" value-ref="gameLocationPrizeProvider" />
+                <entry key="subscriptionGameProvider" value-ref="subscriptionGameProvider" />
+                <entry key="locationTypeProvider" value-ref="locationTypeProvider" />
+                <entry key="subscribedUserGameProvider" value-ref="subscribedUserGameProvider" />
+                <entry key="prizeExistencesProvider" value-ref="prizeExistencesProvider" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="virtualMoneyIncomeProvider" class="biz.televida.virtualmoney.model.VirtualMoneyIncomeProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>
+    <bean id="virtualMoneyMovementReasonProvider" class="biz.televida.virtualmoney.model.VirtualMoneyMovementReasonProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>
+    <bean id="virtualMoneyOutcomeProvider" class="biz.televida.virtualmoney.model.VirtualMoneyOutcomeProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>
+    <bean id="virtualWalletProvider" class="biz.televida.virtualmoney.model.VirtualWalletProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>
+    <bean id="virtualWalletTypeProvider" class="biz.televida.virtualmoney.model.VirtualWalletTypeProviderImp">
+        <constructor-arg index="0" ref="virtualmoneyManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="virtualWalletPropertyProvider" class="biz.televida.virtualmoney.model.VirtualWalletPropertyProviderImp">
+        <constructor-arg index="0" ref="virtualmoneyManagerFactoryContainer" />
+        <constructor-arg index="1" type="long" value="20" />
+    </bean>
+    <bean id="pointsConversionProvider" class="biz.televida.virtualmoney.model.PointsConversionProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>
+    <bean id="convertedPointsProvider" class="biz.televida.virtualmoney.model.ConvertedPointsProviderImp">
+        <constructor-arg ref="virtualmoneyManagerFactoryContainer" />
+    </bean>   
+    <bean id="virtualmoneyProviders" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="virtualMoneyIncomeProvider" value-ref="virtualMoneyIncomeProvider"/>
+                <entry key="virtualMoneyMovementReasonProvider" value-ref="virtualMoneyMovementReasonProvider"/>
+                <entry key="virtualMoneyOutcomeProvider" value-ref="virtualMoneyOutcomeProvider"/>
+                <entry key="virtualWalletProvider" value-ref="virtualWalletProvider"/>
+                <entry key="virtualWalletTypeProvider" value-ref="virtualWalletTypeProvider"/>
+                <entry key="virtualWalletPropertyProvider" value-ref="virtualWalletPropertyProvider"/>          
+                <entry key="pointsConversionProvider" value-ref="pointsConversionProvider"/>
+                <entry key="convertedPointsProvider" value-ref="convertedPointsProvider"/>          
+            </map>
+        </constructor-arg>
+    </bean>        
+
+	<bean id="applicationProvider" class="biz.televida.security.model.ApplicationProviderImp">
+		<constructor-arg ref="securityManagerFactoryContainer" />
+	</bean>
+	<bean id="securityProviders" class="java.util.HashMap">
+	    <constructor-arg>
+	        <map key-type="java.lang.String" value-type="java.lang.Object">
+	        	<entry key="applicationProvider" value-ref="applicationProvider"/>
+	        </map>
+	    </constructor-arg>
+	</bean>
+
+	
+    <bean id="DUMMY_PARTIALFACTORY" class="biz.televida.gamecommands.dummy.DummyCommandsFactory" />
+    <bean id="PRIZEDCMD" class="biz.televida.gamecommands.commons.RedeemPrizeCommand" />
+    <bean id="GIVEPOINTS" class="biz.televida.gamecommands.commons.GivePointsCommand" />
+    <bean id="PREASSIGNEDPRIZE" class="biz.televida.gamecommands.commons.GivePreassignedPrizeCommand" />
+    <bean id="REDEEMPREASSIGNEDPRIZE" class="biz.televida.gamecommands.commons.RedeemPreassignedPrizeCommand" />
+    <bean id="POINTSTOMONEY" class="biz.televida.gamecommands.commons.PointsToMoneyCommand" />
+    <bean id="REDEEMINVENTORYPRIZE" class="biz.televida.gamecommands.commons.BarterPrizeCommand" />
+    <bean id="REDEEMINVPRIZEPOINTS" class="biz.televida.gamecommands.commons.BarterPrizeFromPointsCommand" />
+    <bean id="INCREASELEVEL" class="biz.televida.gamecommands.commons.IncreaseLevelCommand" />    
+    
+    <bean id="gameCommands" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="DUMMY" value-ref="DUMMY_PARTIALFACTORY" />
+                <entry key="PRIZED" value-ref="PRIZEDCMD" />
+                <entry key="PREASSIGNEDPRIZE" value-ref="PREASSIGNEDPRIZE" />
+                <entry key="REDEEMPREASSIGNEDPRIZE" value-ref="REDEEMPREASSIGNEDPRIZE" />
+                <entry key="GIVEPOINTS" value-ref="GIVEPOINTS" />
+                <entry key="REDEEMINVENTORYPRIZE" value-ref="REDEEMINVENTORYPRIZE" />
+                <entry key="REDEEMINVPRIZEPOINTS" value-ref="REDEEMINVPRIZEPOINTS" />
+                <entry key="POINTSTOMONEY" value-ref="POINTSTOMONEY" />
+                <entry key="INCREASELEVEL" value-ref="INCREASELEVEL" />
+            </map>
+        </constructor-arg>
+    </bean>
+
+
+
+    <bean id="sendMessageToLog" class="biz.televida.gamecommands.sendmessage.SendMessageToLog">
+    </bean>
+
+    <bean id="sendMessage" class="java.util.HashMap">
+        <constructor-arg>
+            <map key-type="java.lang.String" value-type="java.lang.Object">
+                <entry key="default" value-ref="sendMessageToLog"/>
+            </map>
+        </constructor-arg>
+    </bean>
+ 
+
+    
+</beans>

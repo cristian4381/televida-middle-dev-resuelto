@@ -1,0 +1,11 @@
+openapi: 3.0.0
+prettyPrint: true
+cacheTTL: 0
+openAPI:
+  info:
+    version: '1.0.0'
+    title: 'API televida'
+    description: Documentacion de los servicios web de televida
+  servers:
+    - url: '/televida-reclutamiento-ws-api/v1'
+      description: Server de produccion

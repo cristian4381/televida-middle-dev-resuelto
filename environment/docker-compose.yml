@@ -1,0 +1,30 @@
+version: '3.3'
+services:
+  db:
+    image: mysql:5.7.29
+    ports:
+      - "33060:3306"
+    volumes: 
+      - ./data:/var/lib/mysql
+      - ./logs/mysql:/var/log/mysql
+      - ./config/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_ROOT_HOST: '%'  # needs to be enclosed with quotes
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  tomcat-api:
+    image: televida-tomcat:9.0.36
+    ports:
+      - "8000:8080"
+    environment:
+      TOMCAT_USERNAME: tomcat
+      TOMCAT_PASSWORD: tomcat
+    working_dir: /usr/local/tomcat/webapps
+    volumes: 
+      - ./logs/tomcat:/usr/local/tomcat/webapps/logs
+    links:
+      - db
+    depends_on:
+      - db
+  
