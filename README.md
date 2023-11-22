@@ -220,7 +220,15 @@ Realizar el diagrama de clases de servicios de la capa de **negocio**
 - ![Tarea 3](commons/images/to-do-list.png) Tarea 3  
 Explicar el proposito del siguiente diagrama  
 
-![componentes](commons/images/componentes.png) 
+![componentes](commons/images/componentes.png)
+El propósito del diagrama es representar que componente necesita o proveé la implementación de una interfaz, en este caso:
+
+**1)** El componente televida-reclutamiento-model proveé la implementación de una interfaz
+
+**2)** El componente televida-reclutamiento-business requiere de una implementación, en este caso es que la provee el componente model, a su vez el componente business provee la implementación de una interfaz
+
+**3)** El componente televida-reclutamiento-ws-api  requiere de una implementación, en este caso es que la provee el componente bussiness, a su vez el componente ws-api provee la implementación de una interfaz
+
 
 * Los componentes se encuentran en la carpeta [layers](layers)
 
@@ -236,7 +244,21 @@ Explicar el proposito del siguiente diagrama
 
 - ![Tarea 5](commons/images/to-do-list.png) Tarea 5    
 Dejar constancia de su codigo DDL 
-
+<pre>
+CREATE TABLE subscription_payments(
+	subscription_payment_id INT PRIMARY KEY AUTO_INCREMENT,
+	subscription_id INT,
+	payment_date TIMESTAMP NULL,
+	subscription_type ENUM('MENSUAL', 'TRIMESTRAL', 'ANUAL'),
+	status INT NULL DEFAULT 1,
+  	creation_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+  	change_date TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  	created_by VARCHAR(255) NULL DEFAULT 'unknow',
+  	changed_by VARCHAR(255) NULL DEFAULT 'unknow',
+  	`version` INT NULL DEFAULT 0,
+	FOREIGN KEY (subscription_id) REFERENCES subscription(subscription_id)
+)
+</pre>
 ### 6. Nociones sobre Patrones de diseño
 - ![Tarea 6](commons/images/to-do-list.png) Tarea 6  
 
@@ -298,15 +320,65 @@ Revisión de tests (Evaluador)
 * Puede probar sus servicios de swagger http://localhost:8000/televida-reclutamiento-ws-api/swagger-ui/  
 
 - ![Tarea 11](commons/images/to-do-list.png) Tarea 11         
-Colocar capturas de pantalla de swagger de cada servicio  
+Colocar capturas de pantalla de swagger de cada servicio
+
+**Listar planes**
+![List plans](commons/images/evidence/Swagger_listar_plan.png)
+
+**Crear plan**
+![Crear plan](commons/images/evidence/Swagger_crear_plan.png)
+
+**Actualizar plan**
+![Actualizar plan](commons/images/evidence/Swagger_actualizar_plan.png)
+
+**Listar suscripciones**
+![Listar suscripciones](commons/images/evidence/Swagger_Listar_suscripciones.png)
+
+**Crear suscripcion**
+![Crear suscripcion](commons/images/evidence/Swagger_crear_suscripcion.png)
+
+**Actualizar suscripcion**
+![Actualizar suscripcion](commons/images/evidence/Swagger_actualizar_suscripcion.png)
 
 ### 11. Postman (Colecciones, ambientes, variables, etc)  
 - ![Tarea 12](commons/images/to-do-list.png) Tarea 12         
 
 1. Crear el workspace TELEVIDA
+
+![Workspace](commons/images/evidence/workspace.png)
+
 2. Migrar servicios de swagger a postman
+
+**Listar planes**
+![List plans](commons/images/evidence/Listar_planes.png)
+
+**Crear plan**
+![Crear plan](commons/images/evidence/Crear_plan.png)
+
+**Actualizar plan**
+![Actualizar plan](commons/images/evidence/Actualizar_plan.png)
+
+**Listar suscripciones**
+![Listar suscripciones](commons/images/evidence/Listar_suscripciones.png)
+
+**Crear suscripcion**
+![Crear suscripcion](commons/images/evidence/Crear_suscripciones.png)
+
+**Actualizar suscripcion**
+![Actualizar suscripcion](commons/images/evidence/Editar_suscripcion.png)
+
 3. Configuracion de ambiente de pruebas y QA (Ficticio)
+
+![Ambiente](commons/images/evidence/Ambientes.png)
+
 4. Creacion de variables globales para cada ambiente (test: http://localhost:8000/televida-reclutamiento-ws-api/v1/ y QA: http://test.televida.biz/televida-reclutamiento-ws-api/v1/)
+
+**Test**
+![Variable abiente QA](commons/images/evidence/Variable_test.png)
+
+**QA**
+![Variable abiente QA](commons/images/evidence/Variable_QA.png)
+
 5. Obtener capturas de pantalla 
 
 
