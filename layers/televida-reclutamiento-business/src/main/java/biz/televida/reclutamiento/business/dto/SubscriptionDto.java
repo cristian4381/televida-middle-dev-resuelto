@@ -5,6 +5,7 @@
 package biz.televida.reclutamiento.business.dto;
 
 import java.util.Date;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,5 +34,6 @@ public class SubscriptionDto {
     private Date nextPaymentDate;
     private Double amount;
     private String fullName;
+    private List<SubscriptionPaymentsDto> payments;
 
 }
