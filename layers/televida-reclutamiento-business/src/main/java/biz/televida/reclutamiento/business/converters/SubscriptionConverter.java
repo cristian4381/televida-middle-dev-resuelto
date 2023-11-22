@@ -76,19 +76,7 @@ public class SubscriptionConverter extends AbstractConverter<Subscription, Subsc
                 .fullName(entity.getFirstName() + " " + entity.getLastName())
                 .build();
         List<SubscriptionPaymentsDto> paymentsDtos = subscriptionPaymentsConverter.fromEntity(entity.getPayments());
-        /*if (entity.getPayments() != null) {
-
-            for (SubscriptionPayments subscriptionPayment : entity.getPayments()) {
-                SubscriptionPaymentsDto payment = SubscriptionPaymentsDto.builder()
-                        .payment(subscriptionPayment.getPayment())
-                        .paymentDate(subscriptionPayment.getPaymentDate())
-                        .subscriptionPaymentId(subscriptionPayment.getSubscriptionPaymentId())
-                        .subscriptionType(subscriptionPayment.getSubscriptionType().name())
-                        .build();
-                paymentsDtos.add(payment);
-            }
-        }*/
-
+        
         subscriptionDto.setPayments(paymentsDtos);
 
         return subscriptionDto;
@@ -117,14 +105,12 @@ public class SubscriptionConverter extends AbstractConverter<Subscription, Subsc
         subscription.setFirstName(firstName);
         subscription.setLastName(lastName);
         subscription.setNextPaymentDate(nextPaymentDate);
-        //subscription.setPayments(payments);
+
         subscription.setPhone(phone);
         subscription.setPlan(plan);
         
         
-        List<SubscriptionPayments> payments = new ArrayList<>(); /*subscriptionDto.getPayments() == null || subscriptionDto.getPayments().isEmpty() 
-                ? subscription.getPayments() 
-                : subscriptionPaymentsConverter.fromDto(subscriptionDto.getPayments());*/
+        List<SubscriptionPayments> payments = new ArrayList<>(); 
         
         if(subscriptionDto.getPayments() != null){
             for (SubscriptionPaymentsDto subscriptionPaymentsDto : subscriptionDto.getPayments()) {
