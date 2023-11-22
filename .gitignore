@@ -4,3 +4,4 @@ environment/data/
 /layers/televida-reclutamiento-ws-api/target/
 layers/televida-reclutamiento-business/logs/
 layers/televida-reclutamiento-model/logs/
+layers/televida-reclutamiento-business/nbproject/
