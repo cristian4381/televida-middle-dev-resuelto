@@ -8,7 +8,9 @@ import biz.televida.reclutamiento.business.converters.SubscriptionConverter;
 import biz.televida.reclutamiento.business.dto.SubscriptionDto;
 import biz.televida.reclutamiento.business.exceptions.ValidateServiceException;
 import biz.televida.reclutamiento.model.SubscriptionProvider;
+import biz.televida.reclutamiento.model.entity.Subscription;
 import biz.televida.reclutamiento.model.entity.utils.ProviderReclutamiento;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,17 +30,45 @@ public class SubscriptionService implements BusinessService<SubscriptionDto> {
 
     @Override
     public List<SubscriptionDto> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Iterator<Subscription> iterator = subscriptionProvider.all("subscriptionId", "DESC", "subscriptionId");
+        return subscriptionConverter.fromEntity(iterator);
     }
 
     @Override
     public SubscriptionDto getById(Long subscriptionId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Subscription subscription = subscriptionProvider.find(subscriptionId);
+        return subscriptionConverter.fromEntity(subscription);
     }
 
     @Override
     public SubscriptionDto createOrUpdate(SubscriptionDto dto) throws ValidateServiceException {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if (dto.getSubscriptionId() == null) {
+            return create(dto);
+        }
+
+        return update(dto);
     }
 
+    private SubscriptionDto create(SubscriptionDto subscriptionDto) {
+        Subscription subscription = subscriptionConverter.fromDto(subscriptionDto);
+        subscriptionProvider.add(subscription);
+        return subscriptionConverter.fromEntity(subscription);
+    }
+
+    private SubscriptionDto update(SubscriptionDto subscriptionDto) throws ValidateServiceException {
+        Subscription subscriptionOld = subscriptionProvider.find(subscriptionDto.getSubscriptionId());
+        Subscription subscription = subscriptionConverter.toUpdate(subscriptionDto, subscriptionOld);
+
+        if (subscription == null) {
+            throw new ValidateServiceException("No existe la subscripcion");
+        }
+        subscriptionProvider.update(subscription);
+        return subscriptionConverter.fromEntity(subscription);
+    }
+    
+    public SubscriptionDto getByEmail(String email){
+        Subscription subscription = subscriptionProvider.getByField("email", email);
+        return subscriptionConverter.fromEntity(subscription);
+    }
+    
 }
