@@ -245,6 +245,10 @@ El propósito del diagrama es representar que componente necesita o proveé la i
     Crear y relacionar una tabla para llevar el registro de los pagos de cada suscripcion (mensual, trimestral, anual)
 
 ![ER](commons/database/reclutamiento.png)   
+    
+**Diagrama entidad relacion actualizado**
+
+![ER actualizado](commons/images/evidence/ER_actualizado.png)
 
 - ![Tarea 5](commons/images/to-do-list.png) Tarea 5    
 Dejar constancia de su codigo DDL 
