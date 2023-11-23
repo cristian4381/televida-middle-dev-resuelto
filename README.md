@@ -213,9 +213,13 @@ mvn install:install-file -Dfile=mimepull-1.9.3.jar -DgroupId=org.jvnet.mimepull 
 - ![Tarea 1](commons/images/to-do-list.png) Tarea 1  
 Realizar el diagrama de clases de los providers de la capa de **datos**
 
+![Diagra de clases model](commons/images/evidence/diagrama_televida_model.jpg)
+
 ##### televida-reclutamiento-business
 - ![Tarea 2](commons/images/to-do-list.png) Tarea 2  
 Realizar el diagrama de clases de servicios de la capa de **negocio**
+
+![Diagra de clases business](commons/images/evidence/diagrama_televida_business.jpg)
 
 - ![Tarea 3](commons/images/to-do-list.png) Tarea 3  
 Explicar el proposito del siguiente diagrama  
@@ -266,15 +270,28 @@ Preguntas
 
 1. ¿Para que se utilizan los patrones creacionales?
 2. ¿Para que se utilizan los patrones estructurales?
+
+**Se utilizan para facilitar la composición de clases y objetos en estructuras más grandes y complejas.**
+
 3. ¿Para que se utilizan los patrones de comportamiento?
 4. ¿En que escenario se utilizaría el patron de diseño singleton?
+
+**R. Cuando se quiere una clase tenga una solo instancia y que se puede utilizar de manera global. Por ejemplo para tener una sola instancia de la conexion ala base de datos**
+
 5. ¿En que escenario se utilizaría el patron de diseño estrategia?
 6. ¿En que escenario se utilizaría el patron de diseño builder?
+
+**R. Se utiliza cuando se quiere construir un objeto complejo paso a paso.**
+
 7. ¿Cuál es el proposito de los DTOs?
+
+**R. Sirven para encapsular un conjunto de datos y enviarlo a través de la red o entre capas de una aplicación.**
+
 8. ¿Cuál es el proposito de los DAOs?
 9. ¿Que se debe controlar al implementar el patrón singleton en un escenario multihilo?
 10. ¿Expliqué que es un antipatron y porque evitar su uso?
 
+**R. Un antipatron suele ser el abuso de algun patron o la mala implemetacion del mismo, se deben evitar porque generan complejidad innecesaria y se dificulta el entendimiento del código, lo que genera problemas a medida que el sistema evoluciona.**
 
 ### 7. Programación en capas (datos, negocio, presentación)
 
